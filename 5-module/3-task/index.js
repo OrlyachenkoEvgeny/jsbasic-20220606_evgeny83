@@ -1,54 +1,48 @@
 function initCarousel() {
-
-
+  let currentSlideNumber = 0;
+  let slidesAmount = 4;
   let elem = document.querySelector('[data-carousel-holder]');
-  let sliderList = elem.querySelector('.carousel__inner');
-  let btnPrev = document.getElementsByClassName('carousel__arrow carousel__arrow_left')[0];
-  let btnNext = document.getElementsByClassName('carousel__arrow carousel__arrow_right')[0];
 
-  let position = 0;
-  let allSlides = 4;
+  let carouselInnerElem = elem.querySelector('.carousel__inner');
+  let carouselArrowRight = elem.querySelector('.carousel__arrow_right');
+  let carouselArrowLeft = elem.querySelector('.carousel__arrow_left');
+
+  update();
 
   elem.onclick = ({target}) => {
     if (target.closest('.carousel__arrow_right')) {
-      right();
+      next();
     }
 
     if (target.closest('.carousel__arrow_left')) {
-      left();
+      prev();
     }
   };
 
-  function right() {
-    position++;
+  function next() {
+    currentSlideNumber++;
     update();
   }
 
-  function left() {
-    position--;
+  function prev() {
+    currentSlideNumber--;
     update();
   }
 
   function update() {
-    let offSet = -sliderList.offsetWidth * position; 
-    sliderList.style.transform = `translateX(${offSet}px)`;
+    let offset = -carouselInnerElem.offsetWidth * currentSlideNumber;
+    carouselInnerElem.style.transform = `translateX(${offset}px)`;
 
-    if (position == allSlides - 1) {
-      btnNext.style.display = 'none';
-    }
-    else {
-      btnNext.style.display = '';
-    }
-
-    if (position == 0) {
-      btnPrev.style.display = 'none';
-    }
-    else {
-      btnPrev.style.display = '';
+    if (currentSlideNumber == slidesAmount - 1) {
+      carouselArrowRight.style.display = 'none';
+    } else {
+      carouselArrowRight.style.display = '';
     }
 
+    if (currentSlideNumber == 0) {
+      carouselArrowLeft.style.display = 'none';
+    } else {
+      carouselArrowLeft.style.display = '';
+    }
   }
-
-  update();
-
 }
